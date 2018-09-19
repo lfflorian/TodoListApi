@@ -18,4 +18,8 @@ var ProductoSchema = new Schema({
     }
 });
 
+ProductoSchema.query.porNombre = function(name) {
+    return this.where({ nombre: name});
+};
+
 module.exports = mongoose.model('Productos', ProductoSchema);

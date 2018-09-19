@@ -30,9 +30,14 @@ exports.CrearProducto = function(req, res) {
 };
 
 exports.BuscarProducto = function(req, res) {
-    Producto.find({ nombre: req.params.nombre}, function(err, producto){
+    Producto.find().porNombre(req.params.nombre).exec(function(err, producto){
         if (err)
             res.send(err);
         res.json(producto);
-    })
+    });
+    /*Producto.find({ nombre: req.params.nombre}, function(err, producto){
+        if (err)
+            res.send(err);
+        res.json(producto);
+    })*/
 };
