@@ -5,7 +5,8 @@ var express = require('express'),
   bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Tododb'); 
+//mongoose.connect('mongodb://localhost/Tododb'); 
+mongoose.connect('mongodb://lflorian:admin123*@ds163402.mlab.com:63402/pruebas') 
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error de conexion: '));
