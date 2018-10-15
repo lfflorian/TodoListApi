@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <!-- REFERENCIA: https://programacion.net/articulo/subida_de_imagenes_multiple_con_angularjs_1905 -->
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" ng-app="galleryapp" ng-controller="uploadController" ng-init="show_images()">
+        <h2>Angular File Upload </h2>
+        <br>
+        <div class="row" >
+            <div class="col-md-6">
+                <input type="file" file-input="files" multiple />
+                <br>
+                <button class="btn btn-info" ng-click="uploadImage()">Upload</button>
+            </div>
+            <div style="clear:both"></div>
+                <br /><br />
+                <div class="col-md-3" ng-repeat="image in uploaded_images">
+                <img ng-src="upload/{{image.file_name}}" width="200" height="200" class="show_images" />
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script>
+            var gallery_app = angular.module("galleryapp", []);
+            gallery_app.directive("fileInput", function ($parse) {
+                return {
+                    link: function ($scope, element, attrs) {
+                        element.on("change", function (event) {
+                            var files = event.target.files;
+                            $parse(attrs.fileInput).assign($scope, element[0].files);
+                            $scope.$apply();
+                        });
+                    }
+                }
+            });
+
+            gallery_app.controller("uploadController", function ($scope, $http) {
+                $scope.uploadImage = function () {
+                    var form_data = new FormData();
+                    angular.forEach($scope.files, function (file) {
+                        console.log(file);
+                        form_data.append('file[]', file);
+                    });
+
+                    console.log(form_data);
+                    $http.post('image_upload.php', form_data,
+                        {
+                            transformRequest: angular.identity,
+                            headers: { 'Content-Type': undefined, 'Process-Data': false }
+                        }).success(function (response) {
+                            alert(response);
+                            $scope.show_images();
+                        });
+                }
+
+                $scope.show_images = function () {
+                    $http.get("show_images.php")
+                        .success(function (data) {
+                            $scope.uploaded_images = data;
+                        });
+                }
+            });
+    </script>
+</body>
+</html>

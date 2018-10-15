@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body ng-app="App" ng-controller="controlador">
+    <h1>Carga de imagenes</h1>
+    <input type="file" file-input="files" multiple/>
+        <button ng-click="submit()">Cargar</button>
+
+    <h2>---</h2>
+    <br>
+
+    <form action="http://localhost:3000/Imagen" method="post" enctype="multipart/form-data">
+        <input type="file" file-input="files" name="fileupload" multiple>
+        <input type="submit">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var app = angular.module('App', []);
+        var form_data = new FormData();
+        var archivos = {};
+
+        app.directive('fileInput', function($parse) {
+            return {
+                link: function ($scope, element, attrs) {
+                    element.on('change', function (event){
+                        var files = event.target.files;
+                        $parse(attrs.fileInput).assign($scope, element[0].files);
+                        $scope.$apply();
+                    });
+                }
+            }
+        });
+
+        app.controller('controlador', function($scope, $http){
+            $scope.submit = function() {
+                var cont = 0;
+                angular.forEach($scope.files, function(file) {
+                   //form_data.append('file['+ cont +']', file); 
+                   form_data.append('file', file)
+                   //console.log(file)
+                   cont++;
+                });
+
+                form_data.forEach(function(value, key) {
+                    //console.log('Llave: ' + key + 'Valor:' + value)
+                    archivos[key] = value;
+                });
+
+                console.log(form_data);
+                //console.log(JSON.stringify(archivos));
+
+                $http({
+                    url : "http://localhost:3000/Imagen",
+                    data: archivos,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method  : 'POST',
+                    type: 'POST'
+                }).then(function mySuccess(response) {
+                    // nothing 
+                    console.log('Succesful request')
+                });
+            };
+        });
+    </script>
+</body>
+</html>
