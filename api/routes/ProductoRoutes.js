@@ -1,7 +1,22 @@
 'use strict';
+
+
+
 module.exports = function(app) {
+    /*var multer = require('multer')*/
     var productoList = require('../controllers/ProductoController');
     var imagenList = require('../controllers/ImagenController');
+
+    /*var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, 'cargas/')
+        },
+        filename: function (req, file, cb) {
+          cb(null, file.fieldname + '-' + Date.now())
+        }
+      })*/
+
+    //var upload = multer({ storage: storage }).single('file');
 
     app.route('/Producto')
         .get(productoList.Productos)

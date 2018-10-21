@@ -2,38 +2,55 @@
 
 var mongoose = require('mongoose'),
 Imagen = mongoose.model('Imagenes');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'cargas/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' +  file.originalname)
+    }
+  })
     
-var formidable = require('formidable');
+var upload = multer({ storage: storage }).array('file');
+
 var fs = require('fs');
 var util = require('util');
 
-    /* Ajuste de imagen */
-    exports.CrearImagen = function(req, res) {
-        /* Codigo para las imagenes */
-        console.log('Hola mundo')
-        console.log(req.body.hola)
+function CrearImagen(req, res) {
 
-        /*console.log('llamada realizada');
-        console.log("-----" + req.params);
-        console.log("-----" + req.body);
+    upload(req, res, function(err) {
+        if (err) {
 
-        var form = new formidable.IncomingForm();
-        var newpath;
+        }
 
-        form.parse(req, function(err, fileds, files) {
-            console.log(util.inspect({fileds: fileds, files: files}));
-            console.log();
-            console.log();
+        console.log(req)
+        var archivos = JSON.parse(req.files);
+
+        /*archivos.array.forEach(element => {
+            console.log(r.path);
         });*/
 
-        /* Almacenamiento del nombre y ruta de la imagen */
+        var nuevo_Producto = new Imagen();
+        //nuevo_Producto.ruta.
+        //console.log(r);
+    })
 
-        /*var nuevo_Producto = new Imagen();
-        nuevo_Producto.nombre = files.filetoupload.name;
-        nuevo_Producto.ruta = newpath;
-        nuevo_Producto.save(function(err, producto) {
-            if (err)
-                res.send(err);
-            res.json(producto);
-        });*/
-    };
+    console.log('Hola mundo')
+
+    /* Almacenamiento del nombre y ruta de la imagen */
+    /*var nuevo_Producto = new Imagen();
+    nuevo_Producto.nombre = files.filetoupload.name;
+    nuevo_Producto.ruta = newpath;
+    nuevo_Producto.save(function(err, producto) {
+        if (err)
+            res.send(err);
+        res.json(producto);
+    });*/
+}
+
+/* Ajuste de imagen */
+module.exports = {
+    CrearImagen
+}

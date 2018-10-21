@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var imagenSchema = new Schema({
     nombre: String,
-    ruta: String,
+    ruta: [String],
     date: { type: Date, default: Date.now }
 });
 
