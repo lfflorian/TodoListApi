@@ -24,6 +24,7 @@ db.once('open', function() {
     next();
   });
 
+
   app.use(fileUpload());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());

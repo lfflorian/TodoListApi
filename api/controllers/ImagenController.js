@@ -10,7 +10,8 @@ var util = require('util');
     /* Ajuste de imagen */
     exports.CrearImagen = function(req, res) {
         /* Codigo para las imagenes */
-        console.log(req.body.file[0])
+        console.log('Hola mundo')
+        console.log(req.body.hola)
 
         /*console.log('llamada realizada');
         console.log("-----" + req.params);

@@ -17,6 +17,12 @@
         <input type="submit">
     </form>
 
+    <img  src="{{ ruta }}">
+
+    <div class="imagenes">
+        <img  ng-repeat="imagen in imagenes" alt="{{ imagenes.nombre }}">
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script>
         var app = angular.module('App', []);
@@ -41,17 +47,23 @@
                 angular.forEach($scope.files, function(file) {
                    //form_data.append('file['+ cont +']', file); 
                    form_data.append('file', file)
-                   //console.log(file)
                    cont++;
                 });
 
-                form_data.forEach(function(value, key) {
-                    //console.log('Llave: ' + key + 'Valor:' + value)
-                    archivos[key] = value;
-                });
+                form_data.append('hola', 'todos')
+                console.log(form_data)
+                // YA muestra la imagenes lley
+                /*var value = form_data.get('file[0]');
+                console.log(value)
 
-                console.log(form_data);
-                //console.log(JSON.stringify(archivos));
+                var fr = new FileReader();
+                fr.onload = (function(theFile) {
+                    return function(e) {
+                    // Render thumbnail.
+                    $scope.ruta = e.target.result
+                    };
+                })(value);
+                var UrL = fr.readAsDataURL(value);*/
 
                 $http({
                     url : "http://localhost:3000/Imagen",
