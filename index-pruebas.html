@@ -27,7 +27,6 @@
     <script>
         var app = angular.module('App', []);
         var form_data = new FormData();
-        var archivos = {};
 
         app.directive('fileInput', function($parse) {
             return {
@@ -50,7 +49,6 @@
                    cont++;
                 });
 
-                form_data.append('hola', 'todos')
                 console.log(form_data)
                 // YA muestra la imagenes lley
                 /*var value = form_data.get('file[0]');
@@ -67,7 +65,7 @@
 
                 $http({
                     url : "http://localhost:3000/Imagen",
-                    data: archivos,
+                    data: form_data,
                     cache: false,
                     contentType: false,
                     processData: false,

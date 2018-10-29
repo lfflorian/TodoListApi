@@ -25,18 +25,19 @@ function CrearImagen(req, res) {
 
         }
 
-        console.log(req)
-        var archivos = JSON.parse(req.files);
+        console.log(req.files)
+        //var archivos = JSON.parse(req.files);
 
         /*archivos.array.forEach(element => {
             console.log(r.path);
         });*/
-
         var nuevo_Producto = new Imagen();
         //nuevo_Producto.ruta.
-        //console.log(r);
+        //console.log(r); 
     })
 
+    
+    res.status(200); 
     console.log('Hola mundo')
 
     /* Almacenamiento del nombre y ruta de la imagen */
@@ -46,7 +47,7 @@ function CrearImagen(req, res) {
     nuevo_Producto.save(function(err, producto) {
         if (err)
             res.send(err);
-        res.json(producto);
+        res.json(producto); 
     });*/
 }
 
