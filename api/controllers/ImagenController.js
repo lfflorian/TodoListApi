@@ -1,7 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-Imagen = mongoose.model('Imagenes');
+var mongoose = require('mongoose')
+var Imagen = mongoose.model('Imagenes')
 var multer = require('multer');
 
 var storage = multer.diskStorage({
@@ -12,14 +12,14 @@ var storage = multer.diskStorage({
       cb(null, Date.now() + '-' +  file.originalname)
     }
   })
-    
+
 var upload = multer({ storage: storage }).array('file');
 
 var fs = require('fs');
 var util = require('util');
 
 function CrearImagen(req, res) {
-
+    //form.uploadDir = '/cargas'
     upload(req, res, function(err) {
         if (err) {
 
@@ -35,8 +35,8 @@ function CrearImagen(req, res) {
         //nuevo_Producto.ruta.
         //console.log(r); 
     })
-
     
+
     res.status(200); 
     console.log('Hola mundo')
 

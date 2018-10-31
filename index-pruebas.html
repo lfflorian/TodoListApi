@@ -13,8 +13,8 @@
     <br>
 
     <form action="http://localhost:3000/Imagen" method="post" enctype="multipart/form-data">
-        <input type="file" file-input="files" name="fileupload" multiple>
-        <input type="submit">
+        <input type="file" file-input="files" name="files" multiple>
+        <input type="submit" id="ads">
     </form>
 
     <img  src="{{ ruta }}">
@@ -24,10 +24,22 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
     <script>
         var app = angular.module('App', []);
         var form_data = new FormData();
 
+
+        /*
+        $('#ads').click(function(event){
+            event.preventDefault();
+            console.log(this);
+            console.log(event);
+        });
+        */
         app.directive('fileInput', function($parse) {
             return {
                 link: function ($scope, element, attrs) {
@@ -41,19 +53,24 @@
         });
 
         app.controller('controlador', function($scope, $http){
+            var objb = new Object();
+
             $scope.submit = function() {
                 var cont = 0;
                 angular.forEach($scope.files, function(file) {
                    //form_data.append('file['+ cont +']', file); 
                    form_data.append('file', file)
+                   objb.file = file
                    cont++;
                 });
-
+                console.log(objb.file)
                 console.log(form_data)
+
+                form_data.append('hola', 'mundo')
+                
                 // YA muestra la imagenes lley
                 /*var value = form_data.get('file[0]');
                 console.log(value)
-
                 var fr = new FileReader();
                 fr.onload = (function(theFile) {
                     return function(e) {
@@ -63,18 +80,9 @@
                 })(value);
                 var UrL = fr.readAsDataURL(value);*/
 
-                $http({
-                    url : "http://localhost:3000/Imagen",
-                    data: form_data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method  : 'POST',
-                    type: 'POST'
-                }).then(function mySuccess(response) {
-                    // nothing 
-                    console.log('Succesful request')
-                });
+                xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:3000/Imagen");  
+                xhr.send(form_data);
             };
         });
     </script>
