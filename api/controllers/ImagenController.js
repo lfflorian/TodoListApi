@@ -19,39 +19,32 @@ var fs = require('fs');
 var util = require('util');
 
 function CrearImagen(req, res) {
-    //form.uploadDir = '/cargas'
+    var nuevo_Producto = new Imagen();
+    nuevo_Producto.nombre = "Nombre",
+    
+
     upload(req, res, function(err) {
         if (err) {
 
         }
 
-        console.log(req.files)
-        //var archivos = JSON.parse(req.files);
+        var archivos = req.files
+        archivos.forEach(element => {
+            nuevo_Producto.ruta.push(element.path)
+        });
 
-        /*archivos.array.forEach(element => {
-            console.log(r.path);
-        });*/
-        var nuevo_Producto = new Imagen();
-        //nuevo_Producto.ruta.
-        //console.log(r); 
+        nuevo_Producto.save(function(err, producto) {
+            if (err)
+                res.send(err);
+            res.json(producto);
+        });
+
+        return;
     })
     
-
     res.status(200); 
-    console.log('Hola mundo')
-
-    /* Almacenamiento del nombre y ruta de la imagen */
-    /*var nuevo_Producto = new Imagen();
-    nuevo_Producto.nombre = files.filetoupload.name;
-    nuevo_Producto.ruta = newpath;
-    nuevo_Producto.save(function(err, producto) {
-        if (err)
-            res.send(err);
-        res.json(producto); 
-    });*/
 }
 
-/* Ajuste de imagen */
 module.exports = {
     CrearImagen
 }
